@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Utilities Dashboard - Results</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <div class="p-8">
+        <div class="max-w-4xl mx-auto space-y-8">
+            <h1 class="text-3xl font-bold text-gray-900 text-center mb-8">Results</h1>
+
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <div class="p-6">
+                    {% if scan %}
+                    <div class="space-y-6">
+                        <h2 class="text-xl font-semibold text-gray-900">Network Scan Results</h2>
+                        <div class="space-y-4">
+                            {% for device in devices %}
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <p class="text-sm">
+                                        <span class="font-medium text-gray-700">IP Address:</span>
+                                        <span class="ml-2 text-gray-900">{{ device.ip }}</span>
+                                    </p>
+                                    <p class="text-sm">
+                                        <span class="font-medium text-gray-700">MAC Address:</span>
+                                        <span class="ml-2 text-gray-900">{{ device.mac }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if ping %}
+                    <div class="space-y-6">
+                        <h2 class="text-xl font-semibold text-gray-900">Ping Results</h2>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <pre class="text-sm text-gray-900 whitespace-pre-wrap">{{ result }}</pre>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if dns %}
+                    <div class="space-y-6">
+                        <h2 class="text-xl font-semibold text-gray-900">DNS Lookup Results</h2>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p class="text-sm text-gray-900">{{ result }}</p>
+                        </div>
+
+                        {% if geo_data %}
+                        <div class="mt-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">Geolocation Information</h3>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <p class="text-sm">
+                                        <span class="font-medium text-gray-700">City:</span>
+                                        <span class="ml-2 text-gray-900">{{ geo_data.city }}</span>
+                                    </p>
+                                    <p class="text-sm">
+                                        <span class="font-medium text-gray-700">Region:</span>
+                                        <span class="ml-2 text-gray-900">{{ geo_data.region }}</span>
+                                    </p>
+                                    <p class="text-sm">
+                                        <span class="font-medium text-gray-700">Country:</span>
+                                        <span class="ml-2 text-gray-900">{{ geo_data.country }}</span>
+                                    </p>
+                                    <p class="text-sm">
+                                        <span class="font-medium text-gray-700">Coordinates:</span>
+                                        <span class="ml-2 text-gray-900">{{ geo_data.coordinates }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="border-t border-gray-200 p-6 bg-gray-50">
+                    <a href="{{ url_for('index') }}" 
+                       class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

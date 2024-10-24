@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Utilities Dashboard</title>
+    <!-- Add Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Add Lucide Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <div class="p-8">
+        <div class="max-w-4xl mx-auto space-y-8">
+            <h1 class="text-3xl font-bold text-gray-900 text-center mb-8">Network Utilities Dashboard</h1>
+            
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <!-- Tabs Navigation -->
+                <div class="border-b border-gray-200">
+                    <nav class="flex -mb-px" aria-label="Tabs">
+                        <button onclick="showTab('scanner')" class="tab-btn w-1/3 py-4 px-1 text-center border-b-2 border-blue-500 font-medium text-blue-600" id="scanner-tab">
+                            <i data-lucide="wifi" class="w-4 h-4 inline-block mr-2"></i>
+                            Network Scanner
+                        </button>
+                        <button onclick="showTab('ping')" class="tab-btn w-1/3 py-4 px-1 text-center border-b-2 border-transparent font-medium text-gray-500" id="ping-tab">
+                            <i data-lucide="radio" class="w-4 h-4 inline-block mr-2"></i>
+                            Ping Utility
+                        </button>
+                        <button onclick="showTab('dns')" class="tab-btn w-1/3 py-4 px-1 text-center border-b-2 border-transparent font-medium text-gray-500" id="dns-tab">
+                            <i data-lucide="globe" class="w-4 h-4 inline-block mr-2"></i>
+                            DNS Lookup
+                        </button>
+                    </nav>
+                </div>
+
+                <div class="p-6">
+                    <!-- Network Scanner Form -->
+                    <div id="scanner-content" class="tab-content">
+                        <form action="{{ url_for('scan_network') }}" method="POST" class="space-y-4">
+                            <div class="flex gap-4">
+                                <input type="text" 
+                                       name="network" 
+                                       placeholder="Network Range (e.g., 192.168.1.0/24)" 
+                                       class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                       required>
+                                <button type="submit" 
+                                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    Scan Network
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Ping Utility Form -->
+                    <div id="ping-content" class="tab-content hidden">
+                        <form action="{{ url_for('ping_host') }}" method="POST" class="space-y-4">
+                            <div class="flex gap-4">
+                                <input type="text" 
+                                       name="target" 
+                                       placeholder="Enter IP or Domain to Ping" 
+                                       class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                       required>
+                                <button type="submit" 
+                                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    Ping
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- DNS Lookup Form -->
+                    <div id="dns-content" class="tab-content hidden">
+                        <form action="{{ url_for('dns_lookup_tool') }}" method="POST" class="space-y-4">
+                            <div class="flex gap-4">
+                                <input type="text" 
+                                       name="domain" 
+                                       placeholder="Enter Domain Name" 
+                                       class="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                                       required>
+                                <button type="submit" 
+                                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                                    Lookup
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Tab switching functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-content').classList.remove('hidden');
+            
+            // Update tab button styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-blue-500', 'text-blue-600');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            document.getElementById(tabName + '-tab').classList.remove('border-transparent', 'text-gray-500');
+            document.getElementById(tabName + '-tab').classList.add('border-blue-500', 'text-blue-600');
+        }
+    </script>
+</body>
+</html>
